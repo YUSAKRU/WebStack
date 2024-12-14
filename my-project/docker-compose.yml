@@ -10,6 +10,10 @@ services:
     environment:
       SERVICE_NAME: laravel-app
       SERVICE_TAGS: dev
+      DB_HOST: mysql
+      DB_DATABASE: laravel
+      DB_USERNAME: root
+      DB_PASSWORD: root
     working_dir: /var/www
     volumes:
       - ./laravel-app:/var/www
@@ -19,16 +23,44 @@ services:
   django-app:
     build:
       context: ./django-app
+      dockerfile: Dockerfile
     container_name: django-app
     restart: unless-stopped
-    command: python manage.py runserver 0.0.0.0:8000
+    command: >
+      sh -c "while ! nc -z mysql 3306; do sleep 1; done &&
+             python manage.py runserver 0.0.0.0:8000"
+    environment:
+      DB_HOST: mysql
+      DB_DATABASE: django
+      DB_USERNAME: root
+      DB_PASSWORD: root
     volumes:
       - ./django-app:/code
     ports:
       - "8000:8000"
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./mysql-init:/docker-entrypoint-initdb.d
     networks:
       - app-network
 
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  mysql-data:
