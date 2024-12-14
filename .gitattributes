@@ -1,0 +1,31 @@
+# Satır sonu ayarları
+* text=auto
+*.py text eol=lf
+*.js text eol=lf
+*.php text eol=lf
+*.json text eol=lf
+*.sh text eol=lf
+*.md text eol=lf
+
+# İkili dosyalar
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary
+*.exe binary
+
+# Dil tanımlamaları (GitHub Linguist için)
+django-app/** linguist-language=Python
+laravel-app/** linguist-language=PHP
+*.blade.php linguist-language=HTML
+
+# Laravel özel dosyaları
+composer.lock linguist-generated
+laravel-app/public/mix-manifest.json linguist-generated
+laravel-app/storage/** linguist-generated
+
+# Performans optimizasyonu
+*.log -diff

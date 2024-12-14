@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  laravel-app:
+    build:
+      context: ./laravel-app
+    container_name: laravel-app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: laravel-app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./laravel-app:/var/www
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "8000:80"
+    volumes:
+      - ./laravel-app/public:/var/www/html
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:5.7
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: laravel_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+  django-app:
+    build:
+      context: ./django-app
+    container_name: django-app
+    restart: unless-stopped
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./django-app:/code
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  db_data:

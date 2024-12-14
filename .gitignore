@@ -1,0 +1,79 @@
+# Global
+*.log
+*.tmp
+*.swp
+*.sublime-project
+*.sublime-workspace
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.bak
+*.orig
+
+# Python / Django
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+db.sqlite3
+*.sqlite3
+instance/
+*.db
+*.log
+media/
+staticfiles/
+local_settings.py
+django-app/requirements.txt.lock
+
+# Node / npm (Laravel frontend)
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+coverage/
+.DS_Store
+public/hot
+public/storage
+storage/*.key
+storage/debugbar/
+storage/logs/
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/testing/*
+storage/framework/views/*
+.env
+.env.*
+!.env.example
+
+# Composer / PHP (Laravel backend)
+vendor/
+composer.lock
+*.phpunit.result.cache
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# Laravel-specific
+laravel-app/storage/
+laravel-app/bootstrap/cache/
+laravel-app/public/storage
+laravel-app/.phpunit.result.cache
+
+# Laravel mix
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+laravel-app/node_modules/
+laravel-app/public/mix-manifest.json
+laravel-app/public/css/
+laravel-app/public/js/
+
+# Miscellaneous
+*.log
+*.out
+*.lock
